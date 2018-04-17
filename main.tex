@@ -1,0 +1,27 @@
+\documentclass[a4paper,14pt]{extreport} %размер бумаги устанавливаем А4, шрифт 12пунктов
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc} %включаем свою кодировку: koi8-r или utf8 в UNIX, cp1251 в Windows
+\usepackage[english,russian]{babel}%используем русский и английский языки с переносами
+\usepackage{amssymb,amsfonts,amsmath,cite,enumerate,float} %подключаем нужные пакеты расширений
+\usepackage[dvips]{graphicx} %хотим вставлять в диплом рисунки
+\graphicspath{{images/}}%путь к рисункам
+\usepackage{indentfirst}%отступ первого абзаца после названия главы
+
+
+
+
+\begin{document}
+\input{titlepage.tex}% это титульный лист
+
+%Содержание
+\renewcommand{\contentsname}{Содержание} 
+%нумерация начинается со второй страницы
+\setcounter{page}{2}
+\tableofcontents
+
+\input{intro.tex}
+\input{theoretical.tex}
+\input{practical.tex}
+\input{outro.tex}
+
+\end{document} 
