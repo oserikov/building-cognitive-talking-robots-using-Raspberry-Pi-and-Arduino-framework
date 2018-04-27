@@ -1,27 +1,99 @@
-\documentclass[a4paper,14pt]{extreport} %размер бумаги устанавливаем А4, шрифт 12пунктов
+\documentclass[a4paper,14pt]{extreport} %размер бумаги устанавливаем А4, шрифт 14пунктов
 \usepackage[T2A]{fontenc}
-\usepackage[utf8]{inputenc} %включаем свою кодировку: koi8-r или utf8 в UNIX, cp1251 в Windows
-\usepackage[english,russian]{babel}%используем русский и английский языки с переносами
-\usepackage{amssymb,amsfonts,amsmath,cite,enumerate,float} %подключаем нужные пакеты расширений
-\usepackage[dvips]{graphicx} %хотим вставлять в диплом рисунки
-\graphicspath{{images/}}%путь к рисункам
+\usepackage[utf8]{inputenc} 
+\usepackage[english,russian]{babel}
+\usepackage{amssymb,amsfonts,amsmath,cite,enumerate,float} % подключаем нужные пакеты расширений
+\usepackage[dvips]{graphicx} % хотим вставлять в диплом рисунки
+\usepackage{longtable} % для таблиц длиннее, чем на страницу
+\usepackage{misccorr} % Добавляем "точки" после названий разделов
+\usepackage{geometry} % Меняем поля страницы
 \usepackage{indentfirst}%отступ первого абзаца после названия главы
+\usepackage{setspace}
+\usepackage{fancyhdr} 
+\usepackage {titlesec} % название главы по центру
+
+
+\graphicspath{{images/}}
 
 
 
+\makeatletter
+\renewcommand{\@biblabel}[1]{#1.} % Заменяем библиографию с квадратных скобок на точку
+\makeatother
+
+\geometry{left=2.5cm}% левое поле
+\geometry{right=2cm}% правое поле
+\geometry{top=2cm}% верхнее поле
+\geometry{bottom=2cm}% нижнее поле
+
+\setcounter{secnumdepth}{4}% уровень вложенности счётчиков
+
+\onehalfspacing
+
+\titleformat{\chapter}{\thispagestyle{myheadings}\centering\hyphenpenalty=10000\normalfont\huge\bfseries}{
+\thechapter. }{0pt}{\Huge}
+\makeatother
+\setlength{\headheight}{17pt}
+
+%нумерация справа вверху
+\pagestyle{fancy} 
+\lhead{} \chead{} \rhead{\normalsize\thepage}
+\lfoot{} \cfoot{} \rfoot{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+\fancypagestyle{plain}{%
+    \fancyhf{} % clear all header and footer fields
+    \fancyhead[RE,RO]{\normalsize \thepage} % Even page, Odd page; Right, Left, Center
+    \renewcommand{\headrulewidth}{0pt}
+    \renewcommand{\footrulewidth}{0pt}
+}
+
+% для большой таблицы
+\newenvironment{myTable}{%
+    \tiny
+    \begin{longtable}[H]{|p{0.9cm}|p{3.4cm}|p{1.2cm}|p{3.9cm}|p{0.6cm}|p{0.7cm}|p{0.6cm}|p{0.7cm}|}
+    \hline
+}{
+    \end{longtable}
+}
+
+% для большой таблицы
+\newenvironment{myTableSecond}{
+    \scriptsize
+    \begin{longtable}[H]{|p{0.7cm}|p{0.4cm}|p{0.4cm}|p{0.9cm}|p{0.9cm}|p{0.9cm}|p{0.9cm}|p{0.9cm}|p{0.9cm}|p{0.9cm}|}
+	\caption{Параметры сетевой модели}\\
+	\label{psm}
+    \hline
+}{
+    \end{longtable}
+}
+
+
+%перечисления
+%\renewcommand{\theenumi}{\arabic{enumi}}% Меняем везде перечисления на цифра.цифра
+%\renewcommand{\labelenumi}{\arabic{enumi}}% Меняем везде перечисления на цифра.цифра
+%\renewcommand{\theenumii}{.\arabic{enumii}}% Меняем везде перечисления на цифра.цифра
+%\renewcommand{\labelenumii}{\arabic{enumi}.\arabic{enumii}.}% Меняем везде перечисления на цифра.цифра
+%\renewcommand{\theenumiii}{.\arabic{enumiii}}% Меняем везде перечисления на цифра.цифра
+%\renewcommand{\labelenumiii}{\arabic{enumi}.\arabic{enumii}.\arabic{enumiii}}% Меняем везде перечисления на цифра.цифра
+
+%полуторный интервал между строками
+%\renewcommand{\baselinestretch}{1.5}% вроде как плохой метод, т.к. растягивает заголовки и сноски, чего лучше не делать
+
+
+\renewcommand{\contentsname}{Содержание} 
+\setcounter{page}{2}
+
+
+\setlength{\parindent}{1cm}
 
 \begin{document}
+
+
 \input{titlepage.tex}% это титульный лист
-
-%Содержание
-\renewcommand{\contentsname}{Содержание} 
-%нумерация начинается со второй страницы
-\setcounter{page}{2}
+\input{referat}
 \tableofcontents
-
-\input{intro.tex}
-\input{theoretical.tex}
-\input{practical.tex}
-\input{outro.tex}
-
+\input{parts/introPt.tex}
+\input{parts/mainPt.tex}
+\input{parts/outroPt.tex}
 \end{document} 
