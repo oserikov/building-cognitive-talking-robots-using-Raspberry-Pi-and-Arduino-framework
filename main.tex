@@ -10,7 +10,7 @@
 \usepackage{indentfirst}%отступ первого абзаца после названия главы
 \usepackage{setspace}
 \usepackage{fancyhdr} 
-\usepackage {titlesec} % название главы по центру
+\usepackage{titlesec} % название главы по центру
 
 
 \graphicspath{{images/}}
@@ -30,12 +30,33 @@
 
 \onehalfspacing
 
-\titleformat{\chapter}{\thispagestyle{myheadings}\centering\hyphenpenalty=10000\normalfont\huge\bfseries}{
-\thechapter. }{0pt}{\Huge}
-\makeatother
-\setlength{\headheight}{17pt}
+% \titleformat{\chapter}{\centering\hyphenpenalty=10000\normalfont\bfseries}{
+% \thechapter. }{0pt}{\normalfont}
+% \makeatother
+% \setlength{\headheight}{17pt}
 
-%нумерация справа вверху
+\titleformat{\chapter}
+{\normalfont\bfseries\centering}{\thechapter}{1em}{\normalfont\bfseries}
+
+\titleformat{\section}
+{\normalfont\bfseries\centering}{\thesection}{1em}{\normalfont\bfseries}
+
+\titleformat{\subsection}
+{\normalfont\bfseries\centering}{\thesubsection}{1em}{\normalfont\bfseries}
+
+\titleformat{\subsubsection}
+{\normalfont\bfseries\centering}{\thesubsubsection}{1em}{\normalfont\bfseries}
+
+
+ 
+% Настройка вертикальных и горизонтальных отступов
+\titlespacing*{\chapter}{0pt}{-30pt}{8pt}
+\titlespacing*{\section}{\parindent}{*4}{*4}
+\titlespacing*{\subsection}{\parindent}{*4}{*4}
+
+
+
+% нумерация справа вверху
 \pagestyle{fancy} 
 \lhead{} \chead{} \rhead{\normalsize\thepage}
 \lfoot{} \cfoot{} \rfoot{}
@@ -48,34 +69,12 @@
     \renewcommand{\footrulewidth}{0pt}
 }
 
-% для большой таблицы
-\newenvironment{myTable}{%
-    \tiny
-    \begin{longtable}[H]{|p{0.9cm}|p{3.4cm}|p{1.2cm}|p{3.9cm}|p{0.6cm}|p{0.7cm}|p{0.6cm}|p{0.7cm}|}
-    \hline
-}{
-    \end{longtable}
-}
-
-% для большой таблицы
-\newenvironment{myTableSecond}{
-    \scriptsize
-    \begin{longtable}[H]{|p{0.7cm}|p{0.4cm}|p{0.4cm}|p{0.9cm}|p{0.9cm}|p{0.9cm}|p{0.9cm}|p{0.9cm}|p{0.9cm}|p{0.9cm}|}
-	\caption{Параметры сетевой модели}\\
-	\label{psm}
-    \hline
-}{
-    \end{longtable}
-}
+% \AtBeginDocument{%
+  \addtocontents{toc}{\protect\thispagestyle{plain}}%
+  \addtocontents{lof}{\protect\thispagestyle{plain}}%
+% }
 
 
-%перечисления
-%\renewcommand{\theenumi}{\arabic{enumi}}% Меняем везде перечисления на цифра.цифра
-%\renewcommand{\labelenumi}{\arabic{enumi}}% Меняем везде перечисления на цифра.цифра
-%\renewcommand{\theenumii}{.\arabic{enumii}}% Меняем везде перечисления на цифра.цифра
-%\renewcommand{\labelenumii}{\arabic{enumi}.\arabic{enumii}.}% Меняем везде перечисления на цифра.цифра
-%\renewcommand{\theenumiii}{.\arabic{enumiii}}% Меняем везде перечисления на цифра.цифра
-%\renewcommand{\labelenumiii}{\arabic{enumi}.\arabic{enumii}.\arabic{enumiii}}% Меняем везде перечисления на цифра.цифра
 
 %полуторный интервал между строками
 %\renewcommand{\baselinestretch}{1.5}% вроде как плохой метод, т.к. растягивает заголовки и сноски, чего лучше не делать
@@ -91,8 +90,11 @@
 
 
 \input{titlepage.tex}% это титульный лист
-\input{referat}
+\input{referat.tex}
 \tableofcontents
+\pagebreak
+
+\input{definitions.tex}
 \input{parts/introPt.tex}
 \input{parts/mainPt.tex}
 \input{parts/outroPt.tex}
