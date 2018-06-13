@@ -10,8 +10,12 @@
 \usepackage{indentfirst}%отступ первого абзаца после названия главы
 \usepackage{setspace}
 \usepackage{fancyhdr} 
+\usepackage{lastpage}
 \usepackage{titlesec} % название главы по центру
-
+\usepackage[nottoc,notlof,notlot]{tocbibind} 
+\usepackage[figure,table]{totalcount}
+\usepackage{caption}
+\usepackage{etoolbox}
 
 \graphicspath{{images/}}
 
@@ -30,10 +34,21 @@
 
 \onehalfspacing
 
-% \titleformat{\chapter}{\centering\hyphenpenalty=10000\normalfont\bfseries}{
-% \thechapter. }{0pt}{\normalfont}
-% \makeatother
-% \setlength{\headheight}{17pt}
+
+
+\usepackage{titletoc} %
+
+\titleclass{\prettypart}{top}[\part]
+
+
+\titleformat{\prettypart}
+{\normalfont\bfseries\centering}{}{0pt}{\normalfont\bfseries}
+
+
+\titleformat{\part}
+{\normalfont\bfseries\centering}{}{0pt}{\normalfont\bfseries}
+
+
 
 \titleformat{\chapter}
 {\normalfont\bfseries\centering}{\thechapter}{1em}{\normalfont\bfseries}
@@ -50,11 +65,17 @@
 
  
 % Настройка вертикальных и горизонтальных отступов
-\titlespacing*{\chapter}{0pt}{-30pt}{8pt}
+\titlespacing*{\prettypart}{0pt}{*4}{*4}
+\titlespacing*{\chapter}{0pt}{*4}{*4}
 \titlespacing*{\section}{\parindent}{*4}{*4}
 \titlespacing*{\subsection}{\parindent}{*4}{*4}
 
+\newcounter{prettypart}
+\titlecontents{prettypart}{\vspace{1em}\normalfont\bfseries}{}{}{\titlerule*[1pc]{.}\normalfont\bfseries\contentspage}
 
+\titlecontents{part}{\vspace{1em}\normalfont\bfseries}{}{}{\titlerule*[1pc]{.}\normalfont\bfseries\contentspage}
+
+\titlecontents{chapter}{\vspace{1em}\normalfont\bfseries}{}{}{\titlerule*[1pc]{.}\normalfont\bfseries\contentspage}
 
 % нумерация справа вверху
 \pagestyle{fancy} 
@@ -69,53 +90,58 @@
     \renewcommand{\footrulewidth}{0pt}
 }
 
-% \AtBeginDocument{%
-  \addtocontents{toc}{\protect\thispagestyle{plain}}%
-  \addtocontents{lof}{\protect\thispagestyle{plain}}%
-% }
+\makeatletter
+\renewcommand\chapter{\thispagestyle{plain}%
+\global\@topnum\z@
+\@afterindentfalse
+\secdef\@chapter\@schapter}
+\makeatother 
 
 
 
-%полуторный интервал между строками
-%\renewcommand{\baselinestretch}{1.5}% вроде как плохой метод, т.к. растягивает заголовки и сноски, чего лучше не делать
-
-
-\renewcommand{\contentsname}{Содержание} 
-\setcounter{page}{2}
+\setcounter{tocdepth}{3}
 
 
 \setlength{\parindent}{1cm}
 
 \begin{document}
 
-
 \input{titlepage.tex}% это титульный лист
+\setcounter{page}{2}
 \input{referat.tex}
+\renewcommand{\contentsname}{СОДЕРЖАНИЕ} 
+
 \tableofcontents
 \pagebreak
-
 \input{definitions.tex}
 \input{parts/introPt.tex}
 \input{parts/mainPt.tex}
 \input{parts/outroPt.tex}
 
-
-
+\renewcommand\bibname{СПИСОК ИСПОЛЬЗОВАННЫХ ИСТОЧНИКОВ}
+\newpage
+\addcontentsline{toc}{prettypart}{\bibname} 
+\let\oldaddcontentsline\addcontentsline
+\renewcommand{\addcontentsline}[3]{}
 \begin{thebibliography}{9}
 \bibitem{lang-krugosvet} 
-\texttt{http://www.krugosvet.ru/enc/gumanitarnye\_nauki/lingvistika/YAZIK.html}
+ЯЗЫК | Энциклопедия Кругосвет
+\\\texttt{http://www.krugosvet.ru/enc/gumanitarnye\_nauki/lingvistika/YAZIK.html}
  
-\bibitem{einstein} 
-Albert Einstein. 
-\textit{Zur Elektrodynamik bewegter K{\"o}rper}. (German) 
-[\textit{On the electrodynamics of moving bodies}]. 
-Annalen der Physik, 322(10):891–921, 1905.
+\bibitem{google-ngram}
+Google Ngram Viewer
+\\\texttt{https://books.google.com/ngrams/}
+% \bibitem{einstein} 
+% Albert Einstein. 
+% \textit{Zur Elektrodynamik bewegter K{\"o}rper}. (German) 
+% [\textit{On the electrodynamics of moving bodies}]. 
+% Annalen der Physik, 322(10):891–921, 1905.
  
-\bibitem{knuthwebsite} 
-Knuth: Computers and Typesetting,
-\\\texttt{http://www-cs-faculty.stanford.edu/\~{}uno/abcde.html}
+% \bibitem{knuthwebsite} 
+% Knuth: Computers and Typesetting,
+% \\\texttt{http://www-cs-faculty.stanford.edu/\~{}uno/abcde.html}
 \end{thebibliography}
-
+\let\addcontentsline\oldaddcontentsline
 
 
 \end{document} 
